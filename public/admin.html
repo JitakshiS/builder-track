@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Builder Track applications</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"><link rel="stylesheet" href="/style.css">
+<style>
+  .wrap{max-width:1360px}
+  .top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:16px}
+  .stats{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+  .stat{border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px;color:var(--muted)}
+  .stat b{display:block;font-size:18px;color:var(--ink)}
+  .list td{cursor:pointer}
+  .toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 12px}
+  .toolbar input[type=search]{flex:1;min-width:220px;padding:8px 12px;border:1px solid var(--line-mid);border-radius:10px;font:inherit;font-size:14px}
+  .toolbar select{width:auto;padding:8px 10px;border:1px solid var(--line-mid);border-radius:10px;font:inherit;font-size:14px}
+  .seg{display:inline-flex;border:1px solid var(--line-mid);border-radius:10px;overflow:hidden}
+  .seg button{border:0;background:#fff;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer;color:var(--muted)}
+  .seg button.on{background:var(--ink);color:#fff}
+  .sheetwrap{overflow:auto;max-height:70vh;border:1px solid var(--line-mid);border-radius:14px;background:#fff}
+  .sheet{border-collapse:separate;border-spacing:0;font-size:13px;min-width:100%;border:none;border-radius:0}
+  .sheet th{position:sticky;top:0;z-index:2;background:#f4f2ee;color:var(--ink);font-size:11.5px;letter-spacing:.02em;text-transform:none;font-weight:700;padding:9px 10px;border-bottom:1px solid var(--line-mid);border-right:1px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+  .sheet th .ar{color:var(--muted);margin-left:4px}
+  .sheet td{padding:8px 10px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);vertical-align:top;max-width:280px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+  .sheet td.wrap{max-width:340px}
+  .sheet th:first-child,.sheet td:first-child{position:sticky;left:0;background:#fff;z-index:1;font-weight:600;color:var(--ink);border-right:1px solid var(--line-mid)}
+  .sheet th:first-child{z-index:3;background:#f4f2ee}
+  .sheet tr:hover td{background:#faf8f4}
+  .sheet .rn{color:var(--muted);font-weight:500;width:36px;text-align:right}
+  .list tr:hover td{background:var(--wash)}
+  .pill{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;border-radius:999px;padding:2px 8px;background:var(--wash);color:var(--muted)}
+  .pill.new{background:#e8f0fb;color:#2f5f9e}.pill.shortlisted{background:var(--warn-bg);color:var(--warn)}.pill.offered,.pill.confirmed{background:var(--accent-wash);color:var(--accent)}.pill.declined{background:var(--err-bg);color:var(--err)}
+  .detail{display:none;border:1px solid var(--line-mid);border-radius:16px;padding:20px 24px;margin-top:20px}
+  .cols{display:grid;grid-template-columns:1.3fr 1fr;gap:24px}
+  .ans h3{margin:14px 0 2px;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--accent)}
+  .ans p{margin:0;white-space:pre-wrap}
+  .score{display:grid;grid-template-columns:1fr 70px;gap:6px 10px;align-items:center;font-size:13.5px}
+  .score select{padding:5px 8px}
+  .email{background:var(--wash);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px;white-space:pre-wrap;margin:6px 0 8px;max-height:280px;overflow:auto}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+  .side section{margin-bottom:18px}
+  .side h3{margin:0 0 6px}
+  #gate{max-width:360px;margin:80px auto;text-align:center}
+  .hours{border:1px solid var(--line);border-radius:16px;padding:0 18px;margin:0 0 16px;background:#fff}
+  .hours summary{cursor:pointer;padding:14px 0;list-style:none;display:flex;gap:10px;align-items:center}
+  .hours summary::-webkit-details-marker{display:none}
+  .hgrid{padding:4px 0 16px;display:grid;gap:14px}
+  .hform{display:grid;grid-template-columns:150px 180px 90px 1fr auto;gap:8px;align-items:center}
+  .hform input,.hform select{padding:8px 10px;font:inherit;font-size:14px;border:1px solid var(--line-mid);border-radius:10px}
+  .hcats{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+  .hcats div{border:1px solid var(--line);border-radius:12px;padding:8px 10px;font-size:12.5px;color:var(--muted)}
+  .hcats b{display:block;color:var(--ink);font-size:16px}
+  .hlist{font-size:13.5px}
+  .hlist td{padding:5px 8px;border-bottom:1px solid var(--line)}
+  .hlist .x{color:var(--muted);cursor:pointer}
+  @media (max-width:900px){.hform{grid-template-columns:1fr 1fr}.hcats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media (max-width:800px){.cols{grid-template-columns:1fr}}
+</style></head>
+<body>
+<div id="gate" class="wrap" style="display:none">
+  <p class="eyebrow">Builder Track hub</p><h1 style="font-size:22px">Passcode</h1>
+  <p class="muted">It's printed in the terminal when the hub starts, and in data/settings.json.</p>
+  <input type="text" id="pass" style="margin:8px 0"><button class="btn" id="go">Open</button>
+</div>
+<div id="app" class="wrap" style="display:none">
+  <div class="top"><div><p class="eyebrow">Builder Track &middot; Cohort one</p><h1 style="font-size:24px;margin:0">Applications</h1></div><div class="row"><a class="btn secondary small" href="/" target="_blank">Program page</a><a class="btn secondary small" href="/apply" target="_blank">Form</a><a class="btn secondary small" href="/volta" target="_blank">Volta view</a><button class="btn secondary small" id="export">Download CSV</button></div></div>
+  <div class="stats" id="stats"></div>
+  <details class="hours" id="hoursBox">
+    <summary><b>Hours and the weekly update</b> <span class="muted" id="hsum"></span></summary>
+    <div class="hgrid">
+      <form id="hf" class="hform">
+        <input type="date" name="date" required>
+        <select name="category" required></select>
+        <input type="number" name="hours" step="0.25" min="0.25" placeholder="Hours" required style="width:90px">
+        <input type="text" name="note" placeholder="What it was (optional)">
+        <button class="btn small" type="submit">Add</button>
+      </form>
+      <div class="hcats" id="hcats"></div>
+      <div id="hlist"></div>
+      <div class="row"><button class="btn secondary small" id="weekly">Copy the weekly update for Laura and Matt</button><span class="muted" id="wk"></span></div>
+    </div>
+  </details>
+  <div class="toolbar">
+    <div class="seg"><button data-view="list">List</button><button data-view="sheet">Sheet</button></div>
+    <input type="search" id="q" placeholder="Search name, organization, role, answers">
+    <select id="fstatus"><option value="">All statuses</option></select>
+    <span class="muted" id="count"></span>
+  </div>
+  <div id="listView"><table class="list"><thead><tr><th>Name</th><th>Organization</th><th>Role</th><th>Submitted</th><th>Cost</th><th>Score</th><th>Status</th></tr></thead><tbody id="rows"></tbody></table></div>
+  <div id="sheetView" class="sheetwrap" style="display:none"><table class="sheet"><thead id="sheetHead"></thead><tbody id="sheetRows"></tbody></table></div>
+  <div class="detail" id="detail"></div>
+</div>
+<script>
+const KEY='bt-passcode'; let pass=localStorage.getItem(KEY)||''; let APPS=[]; let cur=null;
+const STATUSES=['new','step two sent','step two in','call booked','offered','waitlist','confirmed','declined','withdrawn'];
+const CRIT=[['role','Seniority'],['problem','Problem'],['employer','Cost covered'],['time','Commitment']];
+const BOOKING_URL=localStorage.getItem('bt-booking')||'';
+const EMAIL_TO={'creativej.me@gmail.com':1};
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function total(a){return CRIT.reduce((t,[k])=>t+(Number(a.score?.[k])||0),0);}
+function fmt(d){return d?new Date(d).toLocaleDateString('en-CA',{month:'short',day:'numeric'}):'';}
+async function api(path,opts={}){const r=await fetch(path,{...opts,headers:{'Content-Type':'application/json','x-passcode':pass,...(opts.headers||{})}});if(r.status===401){localStorage.removeItem(KEY);pass='';show(false);throw new Error('passcode');}return r.json();}
+function show(ok){document.getElementById('gate').style.display=ok?'none':'block';document.getElementById('app').style.display=ok?'block':'none';}
+const PLAN=[['selection','Selection',9],['setup','Program setup',12],['sessions','Sessions',40],['prep','Session prep',16],['oneonones','One-on-ones',40],['demo','Demo night',3],['after','Follow-up and wrap-up',6]];
+let HOURS=[];
+async function load(){try{[APPS,HOURS]=await Promise.all([api('/api/applications'),api('/api/hours')]);show(true);render();renderHours();}catch{show(false);}}
+function renderHours(){
+  const tot=HOURS.reduce((t,h)=>t+h.hours,0); const by={}; for(const h of HOURS) by[h.category]=(by[h.category]||0)+h.hours;
+  document.getElementById('hsum').textContent=`${tot} of 126 hours logged`;
+  document.getElementById('hcats').innerHTML=PLAN.map(([k,l,p])=>`<div><b>${by[k]||0} / ${p}</b>${l}</div>`).join('');
+  const labels=Object.fromEntries(PLAN.map(([k,l])=>[k,l]));
+  const rows=[...HOURS].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,12);
+  document.getElementById('hlist').innerHTML=rows.length?`<table class="hlist"><tbody>${rows.map(h=>`<tr><td>${h.date}</td><td><b>${labels[h.category]||h.category}</b></td><td>${h.hours} h</td><td class="muted">${esc(h.note||'')}</td><td class="x" data-id="${h.id}" title="Remove">&times;</td></tr>`).join('')}</tbody></table>`:'<p class="muted" style="margin:0">Nothing logged yet. Add the first entry above.</p>';
+  document.querySelectorAll('.hlist .x').forEach(x=>x.onclick=async()=>{await api('/api/hours?id='+x.dataset.id,{method:'DELETE'});HOURS=HOURS.filter(h=>h.id!==x.dataset.id);renderHours();});
+}
+document.querySelector('#hf select').innerHTML=PLAN.map(([k,l])=>`<option value="${k}">${l}</option>`).join('');
+document.querySelector('#hf [name=date]').value=new Date().toISOString().slice(0,10);
+document.getElementById('hf').addEventListener('submit',async e=>{e.preventDefault();const fd=new FormData(e.target);const b=Object.fromEntries(fd.entries());const h=await api('/api/hours',{method:'POST',body:JSON.stringify(b)});if(h.id){HOURS.push(h);e.target.hours.value='';e.target.note.value='';renderHours();}});
+document.getElementById('weekly').onclick=()=>{
+  const c={}; for(const a of APPS) c[a.status]=(c[a.status]||0)+1; const n=k=>c[k]||0;
+  const week=new Date(Date.now()-7*864e5).toISOString().slice(0,10);
+  const newApps=APPS.filter(a=>a.submittedAt.slice(0,10)>=week).length;
+  const hrsWeek=HOURS.filter(h=>h.date>=week).reduce((t,h)=>t+h.hours,0); const hrsTot=HOURS.reduce((t,h)=>t+h.hours,0);
+  const txt=`Hi Laura and Matt,
+
+Quick Builder Track update for the week.
+
+Applications: ${APPS.length} so far (${newApps} new this week). ${n('step two sent')+n('step two in')+n('call booked')+n('offered')+n('waitlist')+n('confirmed')} invited to step two, ${n('call booked')+n('offered')+n('waitlist')+n('confirmed')} calls booked, ${n('offered')} offers out, ${n('confirmed')} seats confirmed.
+Hours: ${hrsWeek} this week, ${hrsTot} of 126 in total.
+
+Next week: [what's coming]
+
+Everything is live on the Volta view whenever you want a look.
+
+Jitakshi`;
+  navigator.clipboard.writeText(txt).then(()=>{document.getElementById('wk').textContent='Copied. Paste it into Gmail and fill in the next-week line.';});
+};
+const SHEET_COLS=[
+  ['fullName','Name',a=>a.answers.fullName],
+  ['status','Status',a=>a.status],
+  ['score','Score',a=>total(a)||''],
+  ['submittedAt','Applied',a=>a.submittedAt.slice(0,10)],
+  ['organization','Organization',a=>a.answers.organization],
+  ['role','Role',a=>a.answers.role],
+  ['years','Years',a=>a.answers.years],
+  ['teamSize','Works with',a=>a.answers.teamSize],
+  ['focus','Wants to improve',a=>a.answers.focus],
+  ['payer','Cost covered by',a=>a.answers.payer],
+  ['email','Email',a=>a.answers.email],
+  ['linkedin','LinkedIn',a=>a.answers.linkedin],
+  ['prepAt','Step two',a=>a.prepAt?a.prepAt.slice(0,10):''],
+  ['problem','Problem',a=>a.prep?.problem,1],
+  ['cost','Costs today',a=>a.prep?.cost],
+  ['solved','Solved looks like',a=>a.prep?.solved,1],
+  ['tools','AI tools',a=>(a.prep?.tools||[]).join(', ')],
+  ['data','Company data',a=>a.prep?.data],
+  ['buildNext','After the program',a=>a.prep?.buildNext,1],
+  ['approver','Approver',a=>{const x=approverOf(a);return x.name?`${x.name} (${x.email})`:'';}],
+  ['costOk','Cost confirmed',a=>a.managerConfirmed?'Yes':''],
+  ['notes','Notes',a=>a.notes,1],
+];
+let VIEW=localStorage.getItem('bt-view')||'list'; let SORT={k:'submittedAt',dir:-1};
+function filtered(){
+  const q=document.getElementById('q').value.trim().toLowerCase(); const st=document.getElementById('fstatus').value;
+  return APPS.filter(a=>(!st||a.status===st)&&(!q||JSON.stringify([a.answers,a.prep,a.notes]).toLowerCase().includes(q)));
+}
+function render(){
+  const s={}; for(const a of APPS) s[a.status]=(s[a.status]||0)+1;
+  document.getElementById('stats').innerHTML=`<div class="stat"><b>${APPS.length}</b>applications</div>`+STATUSES.filter(k=>s[k]).map(k=>`<div class="stat"><b>${s[k]}</b>${k}</div>`).join('')+`<div class="stat"><b>${APPS.filter(a=>a.managerConfirmed).length}</b>cost confirmed</div>`;
+  const fs=document.getElementById('fstatus'); const keep=fs.value; fs.innerHTML='<option value="">All statuses</option>'+STATUSES.map(k=>`<option ${keep===k?'selected':''} value="${k}">${k}${s[k]?' ('+s[k]+')':''}</option>`).join('');
+  document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',b.dataset.view===VIEW));
+  document.getElementById('listView').style.display=VIEW==='list'?'block':'none';
+  document.getElementById('sheetView').style.display=VIEW==='sheet'?'block':'none';
+  const rows=filtered(); document.getElementById('count').textContent=rows.length===APPS.length?'':`${rows.length} shown`;
+  const col=SHEET_COLS.find(c=>c[0]===SORT.k)||SHEET_COLS[3];
+  const sorted=[...rows].sort((x,y)=>{const a=col[2](x)??'',b=col[2](y)??'';return (typeof a==='number'&&typeof b==='number'?a-b:String(a).localeCompare(String(b)))*SORT.dir;});
+  document.getElementById('rows').innerHTML=sorted.map(a=>`<tr data-id="${a.id}"><td>${esc(a.answers.fullName)}</td><td>${esc(a.answers.organization)}</td><td>${esc(a.answers.role)}</td><td>${fmt(a.submittedAt)}</td><td>${a.managerConfirmed?'Confirmed':esc(a.answers.payer||a.answers.managerAgreed)}</td><td>${total(a)||''}</td><td><span class="pill ${esc(a.status).split(' ')[0]}">${esc(a.status)}</span></td></tr>`).join('')||'<tr><td colspan="7" class="muted">No applications yet.</td></tr>';
+  document.getElementById('sheetHead').innerHTML='<tr>'+SHEET_COLS.map(([k,l])=>`<th data-k="${k}">${l}${SORT.k===k?`<span class="ar">${SORT.dir>0?'&#9650;&#xFE0E;':'&#9660;&#xFE0E;'}</span>`:''}</th>`).join('')+'</tr>';
+  document.getElementById('sheetRows').innerHTML=sorted.map(a=>`<tr data-id="${a.id}">${SHEET_COLS.map(([k,l,f,w])=>{const v=f(a)??'';return `<td class="${w?'wrap':''}" title="${esc(v)}">${k==='status'?`<span class="pill ${esc(v).split(' ')[0]}">${esc(v)}</span>`:esc(v)}</td>`;}).join('')}</tr>`).join('')||`<tr><td colspan="${SHEET_COLS.length}" class="muted">No applications match.</td></tr>`;
+  document.querySelectorAll('#sheetHead th').forEach(th=>th.onclick=()=>{SORT=SORT.k===th.dataset.k?{k:th.dataset.k,dir:-SORT.dir}:{k:th.dataset.k,dir:1};render();});
+  document.querySelectorAll('#rows tr[data-id],#sheetRows tr[data-id]').forEach(tr=>tr.onclick=()=>open(tr.dataset.id));
+  if(cur) open(cur,false);
+}
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{VIEW=b.dataset.view;localStorage.setItem('bt-view',VIEW);render();});
+document.getElementById('q').addEventListener('input',()=>render());
+document.getElementById('fstatus').addEventListener('change',()=>render());
+function prepLink(a){return a.prepToken?`${location.origin}/prepare?id=${a.id}&t=${a.prepToken}`:'(this application was made before step two existed)';}
+function stepTwoEmail(a){const n=a.answers.fullName.split(' ')[0];return `Subject: Builder Track: you're through to the next step
+
+Hi ${n},
+
+Thank you for applying to Builder Track. I'd like to learn more about you, so you're through to the next step.${a.answers.focus?`\n\nYou mentioned ${a.answers.focus.replace(/[.]$/,'').replace(/^./,c=>c.toLowerCase())}. That's exactly the kind of thing I'd love to hear more about.`:''}
+
+Here are a few questions about the problem you'd bring to the program. It takes about ten minutes:
+${prepLink(a)}
+
+Please send your answers by [date]. After that I'll invite a small group to a 20-minute call.
+
+Jitakshi
+Builder Track, with Volta`;}
+function callEmail(a){const n=a.answers.fullName.split(' ')[0];return `Subject: Builder Track: let's talk
+
+Hi ${n},
+
+Thank you for your answers. I really enjoyed reading about the problem you'd bring, and I'd love to talk.
+
+Please book a 20-minute slot that suits you: ${BOOKING_URL||'[booking link]'}
+
+Looking forward to it,
+Jitakshi
+Builder Track, with Volta`;}
+function approverOf(a){const p=a.prep||{};return {name:p.approverName||a.answers.approverName||'',email:p.approverEmail||a.answers.approverEmail||''};}
+function hasApprover(a){return a.answers.payer==='My organization'&&!!approverOf(a).email;}
+function managerEmail(a){const n=a.answers.fullName.split(' ')[0];const m=approverOf(a).name.split(' ')[0];
+if(!hasApprover(a)) return a.answers.payer==='Myself'?`${n} is covering the cost herself. No confirmation email needed; the payment details go to her with the offer.`:a.answers.payer==='My organization'?`${n} will name the approver in step two. The confirmation email appears here once she has.`:`${n} isn't sure yet who covers the cost. Send her the employer section of the program page (/#employers) and ask her to come back within a week with a name.`;
+return `Subject: Builder Track: confirming ${a.answers.fullName}'s place
+
+Hi ${m},
+
+${a.answers.fullName} has applied for Builder Track, an eight-week program at Volta where experienced women build an AI tool for a real problem at work and get their team using it. She has named you as the person who approves the cost at ${a.answers.organization}.
+
+Could you reply to confirm the three things below? A simple "yes to all three" is enough.
+
+1. ${n} can attend Tuesdays and Wednesdays, 5:30 to 8:00 pm at Volta, from February 9 to March 31, 2027, with some building time during work hours if needed.
+2. ${a.answers.organization} will cover her share of the seat, $1,100 + HST (Volta sponsors the other half). Nothing is owed now. If she is accepted, you'll receive the payment details in December, with payment due before the cohort starts. If she withdraws before February 9, you're refunded; once the cohort has started, the fee stands.
+3. The tool she builds will be used at work and belongs to ${a.answers.organization}.
+
+If you'd like to know more before confirming, I'm happy to jump on a quick call.
+
+Thanks,
+Jitakshi Sharma
+Builder Track, with Volta`;}
+function open(id,scroll=true){
+  const a=APPS.find(x=>x.id===id); if(!a) return; cur=id; const A=a.answers;
+  const q=(label,key)=>A[key]?`<h3>${label}</h3><p>${esc(Array.isArray(A[key])?A[key].join(', '):A[key])}</p>`:'';
+  const d=document.getElementById('detail'); d.style.display='block';
+  d.innerHTML=`<div class="row" style="justify-content:space-between"><h2 style="border:none;padding:0;margin:0">${esc(A.fullName)} <span class="muted" style="font-weight:400">${esc(A.role)}, ${esc(A.organization)}</span></h2><button class="btn secondary small" id="close">Close</button></div>
+  <p class="muted">${esc(A.email)}${A.linkedin?' &middot; <a href="'+esc(/^https?:/.test(A.linkedin)?A.linkedin:'https://'+A.linkedin)+'" target="_blank">LinkedIn</a>':''} &middot; submitted ${fmt(a.submittedAt)}</p>
+  <div class="cols"><div class="ans">
+    ${q('Years in field','years')}${q('Works with day to day','teamSize')}${q('Wants to improve','focus')}${q('Responsible for','responsibility')}
+    ${q('The problem','problem')}${q('What it costs today','cost')}
+    ${q('Who covers the cost','payer')}${q('Approver','approverName')}${q('Approver email','approverEmail')}
+    <h3 style="margin-top:22px;border-top:1px solid var(--line);padding-top:14px">Step two ${a.prep?'<span class="muted" style="text-transform:none;letter-spacing:0;font-weight:500">answered '+fmt(a.prepAt)+'</span>':'<span class="muted" style="text-transform:none;letter-spacing:0;font-weight:500">not sent or not answered yet</span>'}</h3>
+    ${a.prep?`<h3>The problem</h3><p>${esc(a.prep.problem||'')}</p><h3>What it costs today</h3><p>${esc(a.prep.cost||'')}</p><h3>Solved looks like</h3><p>${esc(a.prep.solved)}</p><h3>AI tools used</h3><p>${esc(a.prep.tools.join(', '))}</p><h3>Company data</h3><p>${esc(a.prep.data)}</p><h3>After the program</h3><p>${esc(a.prep.buildNext)}</p>${a.prep.approverName?`<h3>Approver</h3><p>${esc(a.prep.approverName)} (${esc(a.prep.approverEmail)})</p>`:''}`:''}
+    ${q('Solved looks like','solved')}${q('AI tools used','tools')}${q('Company data','data')}${q('After the program','buildNext')}
+  </div><div class="side">
+    <section><h3>Status</h3><select id="status">${STATUSES.map(s=>`<option ${a.status===s?'selected':''}>${s}</option>`).join('')}</select></section>
+    <section><h3>Score <span class="muted" style="font-weight:400">(1 to 3 each, after step two. Call at 10+ with no 1s)</span></h3><div class="score">${CRIT.map(([k,l])=>`<span>${l}</span><select data-k="${k}"><option value="">-</option>${[1,2,3].map(n=>`<option ${a.score?.[k]==n?'selected':''}>${n}</option>`).join('')}</select>`).join('')}<b>Total</b><b id="tot">${total(a)||''}</b></div></section>
+    <section><h3>Cost confirmation</h3><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="mc" ${a.managerConfirmed?'checked':''}> ${hasApprover(a)?'Approver replied yes':'Cost arranged'}${a.managerConfirmedAt?' <span class="muted">('+fmt(a.managerConfirmedAt)+')</span>':''}</label>
+      <div class="row" ${hasApprover(a)?'':'style="display:none"'}><button class="btn small" id="copyEmail">Copy email</button><a class="btn secondary small" id="mailto" href="#">Open in Gmail</a></div><div class="email" id="emailText">${esc(managerEmail(a))}</div></section>
+    <section><h3>1. Invite to step two</h3><p class="muted" style="margin:0 0 6px;font-size:13px">For the women you'd like to know more about. Set status to "step two sent" after you send it.</p>
+      <div class="row"><button class="btn small" data-copy="s2">Copy</button><a class="btn secondary small" data-gmail="s2" href="#" target="_blank">Open in Gmail</a></div>
+      <div class="email">${esc(stepTwoEmail(a))}</div></section>
+    <section><h3>2. Invite to a call</h3><p class="muted" style="margin:0 0 6px;font-size:13px">After you've read her step-two answers. Set status to "call booked" once she books.</p>
+      <div class="row"><button class="btn small" data-copy="call">Copy</button><a class="btn secondary small" data-gmail="call" href="#" target="_blank">Open in Gmail</a><button class="btn secondary small" id="setBooking">${BOOKING_URL?'Change booking link':'Set booking link'}</button></div>
+      <div class="email">${esc(callEmail(a))}</div></section>
+    <section><h3>Notes</h3><textarea id="notes" style="min-height:80px">${esc(a.notes||'')}</textarea></section>
+    <div class="row"><button class="btn" id="save">Save</button><span class="muted" id="saved"></span><button class="btn secondary small" id="del" style="margin-left:auto">Delete</button></div>
+  </div></div>`;
+  const body=managerEmail(a); const subj=body.split('\n')[0].replace('Subject: ',''); const txt=body.split('\n').slice(2).join('\n');
+  document.getElementById('mailto').href=`https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(approverOf(a).email)}&su=${encodeURIComponent(subj)}&body=${encodeURIComponent(txt)}`;
+  document.getElementById('mailto').target='_blank';
+  const mails={s2:stepTwoEmail(a),call:callEmail(a)};
+  for(const [k,m] of Object.entries(mails)){const subj=m.split('\n')[0].replace('Subject: ','');const txt=m.split('\n').slice(2).join('\n');
+    d.querySelector(`[data-gmail="${k}"]`).href=`https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(A.email)}&su=${encodeURIComponent(subj)}&body=${encodeURIComponent(txt)}`;
+    const b=d.querySelector(`[data-copy="${k}"]`); b.onclick=()=>navigator.clipboard.writeText(txt).then(()=>{b.textContent='Copied';});}
+  document.getElementById('setBooking').onclick=()=>{const v=prompt('Your booking link (Google Calendar, Calendly, Cal.com):',localStorage.getItem('bt-booking')||'');if(v!==null){localStorage.setItem('bt-booking',v.trim());location.reload();}};
+  document.getElementById('copyEmail').onclick=()=>navigator.clipboard.writeText(txt).then(()=>{document.getElementById('copyEmail').textContent='Copied';});
+  d.querySelectorAll('.score select').forEach(s=>s.onchange=()=>{const t=[...d.querySelectorAll('.score select')].reduce((n,x)=>n+(Number(x.value)||0),0);document.getElementById('tot').textContent=t||'';});
+  document.getElementById('close').onclick=()=>{d.style.display='none';cur=null;};
+  document.getElementById('save').onclick=async()=>{
+    const score={}; d.querySelectorAll('.score select').forEach(s=>{if(s.value)score[s.dataset.k]=Number(s.value);});
+    const mc=document.getElementById('mc').checked;
+    const patch={status:document.getElementById('status').value,score,notes:document.getElementById('notes').value,managerConfirmed:mc,managerConfirmedAt:mc?(a.managerConfirmedAt||new Date().toISOString()):null};
+    const upd=await api('/api/applications/'+a.id,{method:'PATCH',body:JSON.stringify(patch)});
+    Object.assign(a,upd); document.getElementById('saved').textContent='Saved'; render();
+  };
+  document.getElementById('del').onclick=async()=>{
+    const b=document.getElementById('del'); if(b.textContent==='Delete'){b.textContent='Really delete? Click again';return;}
+    await api('/api/applications/'+a.id,{method:'DELETE'}); APPS=APPS.filter(x=>x.id!==a.id); d.style.display='none'; cur=null; render();
+  };
+  if(scroll) d.scrollIntoView({behavior:'smooth'});
+}
+document.getElementById('export').onclick=()=>{
+  const cols=['fullName','email','organization','role','years','teamSize','focus','linkedin','payer'];
+  const rows=[['submitted','status','score','managerConfirmed',...cols].join(',')].concat(APPS.map(a=>[a.submittedAt,a.status,total(a),a.managerConfirmed,...cols.map(c=>{const v=a.answers[c];return '"'+String(Array.isArray(v)?v.join('; '):v??'').replace(/"/g,'""')+'"';})].join(',')));
+  const b=new Blob([rows.join('\n')],{type:'text/csv'});const u=URL.createObjectURL(b);const l=document.createElement('a');l.href=u;l.download='builder-track-applications.csv';l.click();
+};
+document.getElementById('go').onclick=()=>{pass=document.getElementById('pass').value.trim();localStorage.setItem(KEY,pass);load();};
+document.getElementById('pass').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('go').click();});
+load();
+</script>
+</body></html>

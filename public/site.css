@@ -1,0 +1,81 @@
+/* Builder Track, shared theme. Jitakshi's design system: warm cream, ink, terracotta, Inter. */
+:root{
+  --bg:#f6f1e7;--panel:#ede5d3;--card:#fffdf8;
+  --ink:#1a1814;--body:#4a4640;--muted:#8a8278;
+  --accent:#c14a26;--accent-deep:#9e3a1c;--wash:#f7e3d9;
+  --line:rgba(26,24,20,.12);--line-strong:rgba(26,24,20,.22);
+  --on-dark:#f6f1e7;--on-dark-2:#cfc6b6;--on-dark-3:#968d7f;--dark-line:rgba(246,241,231,.14);
+  --r:16px;--r-lg:24px;
+  --shadow:0 1px 2px rgba(26,24,20,.05),0 18px 40px -24px rgba(26,24,20,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{margin:0;overflow-x:clip;background:var(--bg);color:var(--body);font-family:InterVariable,Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
+a{color:inherit}
+h1,h2,h3{color:var(--ink);margin:0;font-weight:800;letter-spacing:-0.025em;line-height:1.04;text-wrap:balance}
+h2{font-size:clamp(32px,4.4vw,52px)}
+h3{font-size:20px;font-weight:700;letter-spacing:-0.015em;line-height:1.25}
+p,li{text-wrap:pretty}
+p{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.02em;font-weight:600;color:var(--accent);margin-bottom:18px}
+.eyebrow::before{content:"";width:18px;height:2px;background:currentColor;border-radius:2px}
+.lead{font-size:clamp(18px,1.55vw,21px);color:var(--body);max-width:620px;line-height:1.55}
+section{padding:112px 0}
+@media (max-width:720px){section{padding:76px 0}.wrap{padding:0 18px}}
+
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#fff;text-decoration:none;font-weight:650;padding:15px 24px;border-radius:999px;font-size:16px;border:none;cursor:pointer;font-family:inherit;transition:transform .18s ease,background .18s ease,box-shadow .18s ease;white-space:nowrap;box-shadow:0 10px 24px -12px rgba(193,74,38,.6)}
+.btn:hover{transform:translateY(-2px);background:var(--accent-deep)}
+.btn:disabled{opacity:.55;transform:none;cursor:default}
+.btn.ink{background:var(--ink);box-shadow:none}
+.btn.ink:hover{background:#000}
+.btn.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line-strong)}
+.btn.line:hover{background:rgba(26,24,20,.04)}
+.btn.cream{background:var(--on-dark);color:var(--ink);box-shadow:none}
+.btn.cream:hover{background:#fff}
+.btn.ghost{background:transparent;color:var(--on-dark);box-shadow:inset 0 0 0 1.5px var(--dark-line)}
+.btn.ghost:hover{background:rgba(246,241,231,.08)}
+.btn svg{width:18px;height:18px;flex:none}
+
+nav.top{position:sticky;top:0;z-index:30;background:rgba(246,241,231,.82);backdrop-filter:saturate(1.3) blur(12px);-webkit-backdrop-filter:saturate(1.3) blur(12px);border-bottom:1px solid var(--line)}
+nav.top .wrap{display:flex;align-items:center;justify-content:space-between;height:70px;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-weight:800;letter-spacing:-0.02em;font-size:18px}
+.brand .mark{width:22px;height:22px;border-radius:7px;background:var(--accent);position:relative;flex:none}
+.brand .mark::after{content:"";position:absolute;left:5px;right:5px;bottom:5px;height:3px;border-radius:2px;background:var(--on-dark)}
+.brand small{font-weight:500;color:var(--muted);font-size:14px;letter-spacing:0}
+nav.top .links{display:flex;gap:28px;font-size:15px;font-weight:500}
+nav.top .links a{text-decoration:none;color:var(--body);transition:color .15s;white-space:nowrap}
+.brand{white-space:nowrap}
+nav.top .links a:hover{color:var(--accent)}
+nav.top .btn{padding:11px 18px;font-size:15px}
+@media (max-width:420px){.brand small{display:none}nav.top .btn{padding:10px 14px;font-size:14px}}
+@media (max-width:1000px){nav.top .links{display:none}}
+
+footer.site{border-top:1px solid var(--line);padding:30px 0 40px;font-size:14px;color:var(--muted)}
+footer.site .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer.site a{color:var(--ink)}
+
+/* forms */
+.field{margin-top:22px}
+.field > label,.field > .label{display:block;font-weight:650;color:var(--ink);font-size:16px;margin-bottom:6px}
+.req{color:var(--accent);margin-left:3px}
+.opt{font-weight:500;color:var(--muted);font-size:13px;margin-left:8px}
+.help{color:var(--muted);font-size:14.5px;margin:-2px 0 10px;line-height:1.5}
+input[type=text],input[type=email],input[type=url],input[type=date],input[type=number],select,textarea{width:100%;font:inherit;font-size:16px;padding:13px 15px;border:1px solid var(--line-strong);border-radius:12px;background:var(--bg);color:var(--ink);transition:border-color .15s,box-shadow .15s,background .15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px rgba(193,74,38,.14);background:var(--card)}
+textarea{min-height:120px;resize:vertical;line-height:1.55}
+.choices{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.choices.cols{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.choices label{display:flex;gap:12px;align-items:flex-start;font-weight:500;font-size:15.5px;background:var(--bg);border:1px solid var(--line-strong);border-radius:12px;padding:13px 15px;margin:0;cursor:pointer;color:var(--ink);line-height:1.45;transition:border-color .15s,background .15s}
+.choices label:hover{border-color:var(--accent)}
+.choices label:has(:checked){border-color:var(--accent);background:var(--wash)}
+.choices input{accent-color:var(--accent);width:18px;height:18px;flex:none;margin:1px 0 0}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:640px){.pair{grid-template-columns:1fr}}
+.error{display:none;background:#fbe4dc;color:var(--accent-deep);border-radius:12px;padding:13px 15px;margin:18px 0 0;font-size:15px;font-weight:500}
+
+/* reveal on scroll */
+html.js .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+html.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html.js .reveal{opacity:1;transform:none;transition:none}}

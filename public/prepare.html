@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Builder Track, step two</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://rsms.me"><link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="/site.css">
+<style>
+  main{padding:64px 0 96px}
+  .card{max-width:720px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:44px 44px 40px}
+  @media (max-width:640px){.card{padding:30px 20px}}
+  h1{font-size:clamp(34px,5vw,52px)}
+  .lead{margin-top:16px}
+  .step{display:inline-flex;gap:8px;align-items:center;background:var(--wash);color:var(--accent-deep);font-weight:650;font-size:13.5px;border-radius:999px;padding:6px 12px;margin-bottom:20px}
+  .send{margin-top:30px;padding-top:26px;border-top:1px solid var(--line)}
+  .send .btn{width:100%;justify-content:center;font-size:17px;padding:17px}
+  .msg{text-align:center;padding:30px 0}
+  .msg h1{margin-bottom:14px}
+</style></head>
+<body>
+<nav class="top"><div class="wrap"><a class="brand" href="/"><span class="mark"></span>Builder Track <small>with Volta</small></a></div></nav>
+<main class="wrap"><div class="card" id="card">
+  <p class="muted" style="color:var(--muted)">Loading...</p>
+</div></main>
+<footer class="site"><div class="wrap"><span>Builder Track, with Volta &middot; Halifax</span><span>Questions: <a href="mailto:creativej.me@gmail.com">creativej.me@gmail.com</a></span></div></footer>
+
+<script>
+const q=new URLSearchParams(location.search); const id=q.get('id')||'', t=q.get('t')||'';
+const card=document.getElementById('card');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function message(title,body){card.innerHTML=`<div class="msg"><h1>${title}</h1><p class="lead" style="margin:0 auto">${body}</p><p style="margin-top:26px"><a class="btn line" href="/">Program page</a></p></div>`;}
+async function start(){
+  const r=await fetch(`/api/prepare?id=${encodeURIComponent(id)}&t=${encodeURIComponent(t)}`);
+  if(!r.ok){ message('This link has expired or is incomplete.','Please use the link from your email, or reply to Jitakshi and she will send it again.'); return; }
+  const s=await r.json();
+  if(s.done){ message(`Thanks, ${esc(s.firstName)}. Your answers are in.`,'If you\'re invited to a call, you\'ll get an email with a link to book it. Everyone hears back by December 18.'); return; }
+  const org=s.payer==='My organization';
+  card.innerHTML=`
+    <span class="step">Step 2 &middot; About ten minutes</span>
+    <h1>You're through to the next step, ${esc(s.firstName)}.</h1>
+    <p class="lead">Thank you for applying. Before we pick the group for calls, we'd like to understand the problem you'd bring. Short, honest answers are better than polished ones.</p>
+    <form id="f" novalidate>
+      <div class="field"><label for="problem">Describe the problem you'd bring<span class="req">*</span></label><p class="help">What happens today, who it affects, and where it gets stuck. If you're not sure yet, tell us the part of your work you'd most like to improve.</p><textarea id="problem" name="problem"></textarea></div>
+      <div class="field"><label for="cost">What does it cost today?<span class="req">*</span></label><p class="help">Your best guess: hours a week, money, delays, or missed opportunities.</p><input id="cost" type="text" name="cost"></div>
+      <div class="field"><label for="solved">If the tool worked, what would be different for you or your team in three months?<span class="req">*</span></label><textarea id="solved" name="solved" style="min-height:96px"></textarea></div>
+      <div class="field"><span class="label">Which AI tools have you used?<span class="req">*</span></span>
+        <ul class="choices cols">${['ChatGPT','Claude','Microsoft Copilot','Gemini','Other','None yet'].map(v=>`<li><label><input type="checkbox" name="tools" value="${v}">${v}</label></li>`).join('')}</ul></div>
+      <div class="field"><span class="label">Can you use real company data for this problem?<span class="req">*</span></span><p class="help">If there are IT or privacy rules to work around, we'll talk about them on the call.</p>
+        <ul class="choices">${['Yes','Only with sample or anonymized data','Not sure, I need to check'].map(v=>`<li><label><input type="radio" name="data" value="${v}">${v}</label></li>`).join('')}</ul></div>
+      <div class="field"><label for="buildNext">What would you do with this after the eight weeks?<span class="req">*</span></label><p class="help">The next problem you'd take on, or what changes in your role or your team.</p><textarea id="buildNext" name="buildNext" style="min-height:90px"></textarea></div>
+      ${org?`<div class="field"><span class="label">Who approves the cost at ${esc(s.organization)}?<span class="req">*</span></span><p class="help">Your manager, HR or finance. If it's you, put your own details. We'll email them once to confirm. <a href="/#employers" target="_blank" style="color:var(--accent)">This section</a> is written for them.</p><div class="pair"><input type="text" name="approverName" placeholder="Name" aria-label="Approver name"><input type="email" name="approverEmail" placeholder="Email" aria-label="Approver email"></div></div>`:''}
+      <div class="send"><div class="error" id="err" role="alert"></div><button class="btn" type="submit" id="submit" style="margin-top:6px">Send my answers</button></div>
+    </form>`;
+  document.getElementById('f').addEventListener('submit',async e=>{
+    e.preventDefault(); const fd=new FormData(e.target); const a={};
+    for(const [k,v] of fd.entries()){ if(k==='tools'){(a.tools=a.tools||[]).push(v);} else a[k]=v.trim(); }
+    const miss=[]; if(!a.problem)miss.push('the problem'); if(!a.cost)miss.push('what it costs today'); if(!a.solved)miss.push('what would be different'); if(!a.tools)miss.push('the AI tools'); if(!a.data)miss.push('company data'); if(!a.buildNext)miss.push('what you would do after'); if(org&&(!a.approverName||!a.approverEmail))miss.push('who approves the cost');
+    const err=document.getElementById('err');
+    if(miss.length){err.style.display='block';err.textContent='Please fill in: '+miss.join(', ')+'.';return;}
+    const b=document.getElementById('submit'); b.disabled=true; b.textContent='Sending...';
+    const r=await fetch('/api/prepare',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,t,answers:a})});
+    if(r.ok) message(`Thanks, ${esc(s.firstName)}. Your answers are in.`,'Jitakshi reads every one. If you\'re invited to a call, you\'ll get an email with a link to book it. Everyone hears back by December 18.');
+    else { err.style.display='block'; err.textContent='Something went wrong. Please try again, or email creativej.me@gmail.com.'; b.disabled=false; b.textContent='Send my answers'; }
+  });
+}
+start();
+</script>
+</body></html>

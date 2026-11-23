@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apply for Builder Track</title>
+<link rel="preconnect" href="https://rsms.me"><link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="/site.css">
+<style>
+  .page{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:56px;align-items:start;padding-top:64px;padding-bottom:96px}
+  @media (max-width:940px){.page{grid-template-columns:minmax(0,1fr);gap:36px;padding-top:40px}}
+  .intro{position:sticky;top:104px}
+  @media (max-width:940px){.intro{position:static}}
+  .intro h1{font-size:clamp(40px,5vw,60px);line-height:1}
+  .intro .lead{margin-top:20px}
+  .how{margin-top:32px;border-top:1px solid var(--line)}
+  .how > div{display:grid;grid-template-columns:40px 1fr;gap:12px;padding:18px 0;border-bottom:1px solid var(--line)}
+  .how b{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:800;background:var(--ink);color:var(--on-dark)}
+  .how > div.now b{background:var(--accent)}
+  .how h3{font-size:16.5px}
+  .how p{font-size:15px;color:var(--muted);margin-top:4px}
+  .sponcard{margin-top:24px;background:var(--accent);color:#fff;border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+  .sponcard b{font-size:17px}
+  .sponcard span{font-size:14.5px;color:#fbe2d8}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px}
+  .facts div{background:var(--panel);border-radius:14px;padding:12px 14px}
+  .facts .k{font-size:12px;font-weight:600;color:var(--muted)}
+  .facts .v{font-size:14.5px;font-weight:650;color:var(--ink);line-height:1.35;margin-top:2px}
+  .formcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:10px 40px 40px}
+  @media (max-width:640px){.formcard{padding:4px 20px 28px}}
+  .block{padding-top:30px}
+  .block + .block{margin-top:30px;border-top:1px solid var(--line)}
+  .block h2{font-size:24px;display:flex;align-items:baseline;gap:12px}
+  .block h2 span{font-size:14px;color:var(--accent);font-weight:700}
+  .block .note{color:var(--muted);font-size:15px;margin-top:8px}
+  .block .note a{color:var(--accent)}
+  .commit{margin-top:22px}
+  .send{margin-top:32px;padding-top:28px;border-top:1px solid var(--line)}
+  .send .btn{margin-top:20px;width:100%;justify-content:center;font-size:17px;padding:17px}
+  .send .after{color:var(--muted);font-size:14px;margin-top:14px;text-align:center}
+</style></head>
+<body>
+<nav class="top"><div class="wrap">
+  <a class="brand" href="/"><span class="mark"></span>Builder Track <small>with Volta</small></a>
+  <div class="links"><a href="/#who">Who it's for</a><a href="/#weeks">The eight weeks</a><a href="/#cost">Cost</a><a href="/#employers">For employers</a><a href="/#faq">Questions</a></div>
+  <a class="btn line" href="/">Program page</a>
+</div></nav>
+
+<main class="wrap page">
+  <aside class="intro">
+    <span class="eyebrow">Application &middot; Closes Friday, December 11</span>
+    <h1>Apply for Builder Track.</h1>
+    <p class="lead">Two minutes. Tell us who you are, and we'll take it from there.</p>
+    <div class="how">
+      <div class="now"><b>1</b><div><h3>Register your interest</h3><p>Who you are, your role and team, and who would cover the cost.</p></div></div>
+      <div><b>2</b><div><h3>If you're selected</h3><p>We email you a few questions about the problem you'd bring.</p></div></div>
+      <div><b>3</b><div><h3>A 20-minute call</h3><p>A short conversation with Jitakshi for the final group.</p></div></div>
+      <div><b>4</b><div><h3>December 18</h3><p>Everyone hears back. Ten seats, plus a short waitlist.</p></div></div>
+    </div>
+    <div class="sponcard"><b>Volta sponsors half of every seat.</b><span>You pay $1,100 + HST for all eight weeks, by January 31 once your seat is confirmed.</span></div>
+    <div class="facts">
+      <div><p class="k">Dates</p><p class="v">Feb 9 to Mar 31, 2027</p></div>
+      <div><p class="k">When</p><p class="v">Tue and Wed, 5:30 to 8:00 pm</p></div>
+      <div><p class="k">Where</p><p class="v">Volta, Argyle Street</p></div>
+      <div><p class="k">Seats</p><p class="v">Ten, plus a short waitlist</p></div>
+    </div>
+  </aside>
+
+  <div class="formcard">
+    <form id="f" novalidate>
+      <div class="block">
+        <h2><span>01</span>About you</h2>
+        <div class="pair">
+          <div class="field"><label for="fullName">Full name<span class="req">*</span></label><input id="fullName" type="text" name="fullName" autocomplete="name"></div>
+          <div class="field"><label for="email">Email<span class="req">*</span></label><input id="email" type="email" name="email" autocomplete="email"></div>
+        </div>
+        <div class="pair">
+          <div class="field"><label for="organization">Organization<span class="req">*</span></label><input id="organization" type="text" name="organization" autocomplete="organization"></div>
+          <div class="field"><label for="role">Your role or title<span class="req">*</span></label><input id="role" type="text" name="role" autocomplete="organization-title"></div>
+        </div>
+        <div class="field"><label for="linkedin">LinkedIn profile<span class="opt">optional, but it helps</span></label><input id="linkedin" type="text" name="linkedin" placeholder="linkedin.com/in/..."></div>
+        <div class="field"><span class="label">How long have you worked in your field?<span class="req">*</span></span>
+          <ul class="choices cols"><li><label><input type="radio" name="years" value="Under 5 years">Under 5 years</label></li><li><label><input type="radio" name="years" value="5 to 10 years">5 to 10 years</label></li><li><label><input type="radio" name="years" value="10 to 20 years">10 to 20 years</label></li><li><label><input type="radio" name="years" value="Over 20 years">Over 20 years</label></li></ul></div>
+        <div class="field"><span class="label">Roughly how many people work with you day to day?<span class="req">*</span></span>
+          <ul class="choices cols"><li><label><input type="radio" name="teamSize" value="Just me">Just me</label></li><li><label><input type="radio" name="teamSize" value="2 to 5">2 to 5</label></li><li><label><input type="radio" name="teamSize" value="6 to 15">6 to 15</label></li><li><label><input type="radio" name="teamSize" value="More than 15">More than 15</label></li></ul></div>
+        <div class="field"><label for="focus">In one line, what part of your work would you most like to improve?<span class="opt">optional</span></label><input id="focus" type="text" name="focus" maxlength="200" placeholder="For example: the monthly board report"></div>
+      </div>
+
+      <div class="block">
+        <h2><span>02</span>Cost and commitment</h2>
+        <p class="note">Volta sponsors half of every seat, so your share is $1,100 plus HST, paid by January 31 once your seat is confirmed. We strongly recommend asking your organization to cover it. <a href="/#employers" target="_blank">This section</a> is written for your employer, and you can forward it.</p>
+        <div class="field"><span class="label">Who would cover the cost?<span class="req">*</span></span>
+          <ul class="choices"><li><label><input type="radio" name="payer" value="My organization">My organization</label></li><li><label><input type="radio" name="payer" value="Myself">Myself</label></li><li><label><input type="radio" name="payer" value="Not sure yet">Not sure yet. I need to ask.</label></li></ul></div>
+        <div class="commit"><ul class="choices">
+          <li><label><input type="checkbox" name="commit" value="ready">I can attend every session, Tuesdays and Wednesdays 5:30 to 8:00 pm at Volta from February 9 to March 31, build for about four hours a week, and present my tool in week eight.</label></li>
+        </ul></div>
+      </div>
+
+      <div class="send">
+        <ul class="choices"><li><label><input type="checkbox" name="commit" value="accurate">The information here is accurate, and you can contact me about my application.</label></li></ul>
+        <div class="error" id="err" role="alert"></div>
+        <button class="btn" type="submit" id="submit">Submit application</button>
+        <p class="after">You'll get a confirmation by email. Everyone hears back by Friday, December 18.</p>
+      </div>
+    </form>
+  </div>
+</main>
+
+<footer class="site"><div class="wrap"><span>Builder Track, with Volta &middot; Halifax</span><span>Questions: <a href="mailto:creativej.me@gmail.com">creativej.me@gmail.com</a></span></div></footer>
+
+<script>
+const LABELS={fullName:'your name',email:'your email',organization:'your organization',role:'your role',years:'how long you have worked in your field',teamSize:'how many people work with you',payer:'who would cover the cost'};
+const REQ=Object.keys(LABELS);
+document.getElementById('f').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const fd=new FormData(e.target); const a={};
+  for(const [k,v] of fd.entries()){ if(k==='commit'){(a[k]=a[k]||[]).push(v);} else a[k]=v.trim(); }
+  const missing=REQ.filter(k=>!a[k]).map(k=>LABELS[k]);
+  const c=a.commit||[]; if(!c.includes('ready')) missing.push('the commitment');
+  if(!c.includes('accurate')) missing.push('the statement above the submit button');
+  const err=document.getElementById('err');
+  if(missing.length){ err.style.display='block'; err.textContent='Please fill in: '+missing.join(', ')+'.'; err.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+  err.style.display='none'; const b=document.getElementById('submit'); b.disabled=true; b.textContent='Sending...';
+  try{
+    const r=await fetch('/api/applications',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(a)});
+    if(!r.ok){ const j=await r.json().catch(()=>({})); throw new Error(j.error||'Something went wrong'); }
+    location.href='/thanks';
+  }catch(ex){ err.style.display='block'; err.textContent=ex.message+'. Please try again, or email creativej.me@gmail.com.'; b.disabled=false; b.textContent='Submit application'; }
+});
+</script>
+</body></html>

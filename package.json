@@ -1,0 +1,13 @@
+{
+  "name": "builder-track-hub",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Builder Track program hub: public pages, application form and applications list.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.9.0",
+    "nodemailer": "^10.4.0"
+  }
+}
