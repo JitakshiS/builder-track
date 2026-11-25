@@ -115,6 +115,16 @@
   .spon b{color:var(--accent-deep)}
   .spon .dot{flex:none;width:10px;height:10px;border-radius:3px;background:var(--accent);transform:rotate(45deg)}
   .sponh{color:#fff;font-size:clamp(28px,3vw,38px);font-weight:800;letter-spacing:-0.025em;line-height:1.08;margin-bottom:24px;max-width:14ch}
+  .was{color:var(--muted);text-decoration-thickness:2px;margin-right:4px}
+  .pricebox{background:var(--on-dark);color:var(--ink);border-radius:20px;overflow:hidden;box-shadow:0 18px 30px -20px rgba(0,0,0,.45)}
+  .pricebox .row{display:flex;justify-content:space-between;align-items:baseline;padding:16px 22px;border-bottom:1px solid var(--line);font-size:17px;color:var(--body)}
+  .pricebox .row s{font-size:26px;font-weight:700;color:var(--muted);text-decoration-thickness:3px;text-decoration-color:var(--accent)}
+  .pricebox .row.v b{font-size:24px;color:var(--accent)}
+  .pricebox .row.y{border-bottom:none;background:#fffdf8;padding:20px 22px}
+  .pricebox .row.y span{font-weight:700;color:var(--ink)}
+  .pricebox .row.y b{font-size:clamp(40px,4.4vw,56px);font-weight:800;letter-spacing:-0.025em;color:var(--ink);line-height:1}
+  .pricebox .row.y b sup{font-size:.45em;vertical-align:top;position:relative;top:.3em}
+  .pricebox .row.y b small{font-size:.38em;font-weight:600;color:var(--muted);letter-spacing:0}
   .seatsplit{display:grid;grid-template-columns:1fr 1fr;border-radius:18px;overflow:hidden;box-shadow:0 18px 30px -20px rgba(0,0,0,.45)}
   .half{padding:18px 18px 16px;display:flex;flex-direction:column;gap:2px}
   .half small{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
@@ -229,7 +239,7 @@
       <h1>Build an AI tool for a real problem at work. <span>Then get your team using it.</span></h1>
       <p class="lead">Builder Track is an eight-week program at Volta for experienced women. You bring one problem from your own work that keeps costing time. You leave with a working tool, a team that uses it, and the ability to build the next one yourself.</p>
       <div class="cta"><a class="btn" href="/apply">Apply in two minutes<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn line" href="#weeks">See how it works</a></div>
-      <div class="spon"><span class="dot"></span><span><b>Volta sponsors half of every seat.</b> You pay $1,100 + HST.</span></div>
+      <div class="spon"><span class="dot"></span><span><s class="was">$2,200</s> <b>$1,100 + HST.</b> Volta sponsors half of every seat.</span></div>
       <p class="meta">Applications close Friday, December 11. Tuesday and Wednesday evenings, 5:30 to 8:00 pm.</p>
     </div>
     <div class="season" aria-label="The sixteen sessions, February 9 to March 31">
@@ -361,9 +371,10 @@
       <div>
         <span class="eyebrow">Your seat</span>
         <h3 class="sponh">Volta sponsors half of your seat.</h3>
-        <div class="seatsplit">
-          <div class="half v"><small>Sponsored by Volta</small><b>50%</b><span>of the seat cost</span></div>
-          <div class="half y"><small>You pay</small><b class="num"><sup>$</sup>1,100</b><span>plus HST</span></div>
+        <div class="pricebox">
+          <div class="row"><span>Full seat</span><s class="num">$2,200</s></div>
+          <div class="row v"><span>Sponsored by Volta</span><b class="num">&minus;$1,100</b></div>
+          <div class="row y"><span>You pay</span><b class="num"><sup>$</sup>1,100<small> + HST</small></b></div>
         </div>
         <p>For all eight weeks. Nothing is paid when you apply. Payment is due by January 31, once your seat is confirmed.</p>
       </div>
@@ -396,7 +407,7 @@
     </ul></div>
     <div class="col"><h3>What we ask of you</h3><ul>
       <li><b>Her time.</b> Two evenings a week at Volta, outside work hours, plus about four hours of building. Attendance at every session is part of the program.</li>
-      <li><b>$1,100 plus HST for the seat.</b> That's half: Volta sponsors the rest. Nothing is owed when she applies. If she's accepted, you receive the payment details in December, due by January 31.</li>
+      <li><b>$1,100 plus HST for the seat.</b> The full seat is $2,200; Volta sponsors the other half. Nothing is owed when she applies. If she's accepted, you receive the payment details in December, due by January 31.</li>
       <li><b>Permission to use the tool at work,</b> and real company data where your policies allow it.</li>
     </ul></div>
     <div class="col"><h3>How the next steps work</h3><ul class="steps">
@@ -431,7 +442,7 @@
     <details><summary>How does applying work?</summary><p>First, a two-minute application: who you are, your role and team, and who would cover the cost. If you're selected for the next step, we email you a few questions about the problem you'd bring. From those answers, Jitakshi invites a small group to a 20-minute call. Offers go out December 18.</p></details>
     <details><summary>What counts as a "real problem"?</summary><p>Something that happens regularly in your work, costs time or money, and is small enough to have a working first version by week five. A weekly report, a repeated request, a process with too many steps. If you're not sure, apply anyway and tell us the area.</p></details>
     <details><summary>How much time is it, really?</summary><p>About nine hours a week: two sessions of 2.5 hours at Volta, and about four hours of building in between. The one-on-one is 30 minutes, usually inside a working day.</p></details>
-    <details><summary>Who pays, and when?</summary><p>Volta sponsors half of every seat, so your share is $1,100 plus HST. We strongly recommend your organization covers it, and if you move to the next step we ask who approves it, so we can confirm with them. If you're paying yourself, that's fine too. Payment is due by January 31, once your seat is confirmed. If you withdraw before February 9, your seat goes to someone on the waitlist and you're refunded. Once the cohort has started, the fee stands.</p></details>
+    <details><summary>Who pays, and when?</summary><p>A full seat is $2,200 plus HST. Volta sponsors half of every seat, so you pay $1,100 plus HST. We strongly recommend your organization covers it, and if you move to the next step we ask who approves it, so we can confirm with them. If you're paying yourself, that's fine too. Payment is due by January 31, once your seat is confirmed. If you withdraw before February 9, your seat goes to someone on the waitlist and you're refunded. Once the cohort has started, the fee stands.</p></details>
     <details><summary>Can I use my company's data?</summary><p>Only if your organization allows it. If not, you build with sample or anonymized data and switch to real data afterwards, with approval.</p></details>
     <details><summary>Which AI tools will we use?</summary><p>Mainly Claude. Each participant needs a Claude Pro subscription for the two months, which is reimbursed when you complete the program. If your project needs more, we'll talk about it.</p></details>
     <details><summary>What if I miss a session?</summary><p>Each week builds on the last, so we ask you to attend every session. If something unavoidable comes up, tell Jitakshi ahead of time and catch up with the materials before the next session.</p></details>
