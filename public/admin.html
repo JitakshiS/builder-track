@@ -182,7 +182,9 @@ function render(){
 document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{VIEW=b.dataset.view;localStorage.setItem('bt-view',VIEW);render();});
 document.getElementById('q').addEventListener('input',()=>render());
 document.getElementById('fstatus').addEventListener('change',()=>render());
-function prepLink(a){return a.prepToken?`${location.origin}/prepare?id=${a.id}&t=${a.prepToken}`:'(this application was made before step two existed)';}
+// Always the public address, so links work even when admin is opened locally or on a preview URL
+const LIVE_SITE='https://builder-track-lime.vercel.app';
+function prepLink(a){return a.prepToken?`${LIVE_SITE}/prepare?id=${a.id}&t=${a.prepToken}`:'(this application was made before step two existed)';}
 function stepTwoEmail(a){const n=a.answers.fullName.split(' ')[0];return `Subject: Builder Track: you're through to the next step
 
 Hi ${n},
